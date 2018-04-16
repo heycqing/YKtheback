@@ -175,9 +175,51 @@ var app = express();
 
     })
     // 修改用户状态：init状态==>待定  (where name =? && status= ?)
+    app.post('changeToWaiting',function(req,res){
+        // 获取唯一值：电话号码
+        var phone_Waiting = res.body.phone;
+        var sql_changeWaiting = "update dataOfYk SET markStatus = '待定' where phone = \' "+phone_Waiting+ "\'";
+        connection.query(sql_changeWaiting,function (err, result) {
+            if(err){
+                    console.log('[update ERROR] - ',err.message);
+                    return;
+            }
+            if(result === 0){
+                return;
+            }        
+            console.log('--------------------------select----------------------------');
+            console.log('update affectedRows',result);
+            var data = JSON.stringify(result);
+            console.log('-----------------------------------------------------------------\n\n');
+             
+        });
 
+
+
+    })
     // 修改用户状态：init状态==>淘汰，待定状态==>淘汰  (where name =? && status= ?)
+    app.post('changeToOut',function(req,res){
+        // 获取唯一值：电话号码
+        var phone_Out = res.body.phone;
+        var sql_changeOut = "update dataOfYk SET markStatus = '待定' where phone = \' "+phone_Out+ "\'";
+        connection.query(sql_changeOUt,function (err, result) {
+            if(err){
+                    console.log('[update ERROR] - ',err.message);
+                    return;
+            }
+            if(result === 0){
+                return;
+            }        
+            console.log('--------------------------select----------------------------');
+            console.log('update affectedRows',result);
+            var data = JSON.stringify(result);
+            console.log('-----------------------------------------------------------------\n\n');
+             
+        });
 
+
+
+    })
     // 更新用户基本信息：餐厅，商圈，电话号码（一起更新和单独更新）
     
     
