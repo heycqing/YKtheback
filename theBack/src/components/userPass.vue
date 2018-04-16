@@ -4,7 +4,10 @@
 
 
   <el-table :data="tableData_pass" style="width: 90%;margin:auto" max-height="600">
-   
+     <el-table-column
+      type="selection"
+      width="55">
+    </el-table-column>
     <el-table-column fixed prop="markStatus" label="标记状态" width="150">
     </el-table-column>
     <el-table-column prop="name" label="姓名" width="120">

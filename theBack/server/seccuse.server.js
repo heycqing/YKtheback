@@ -153,7 +153,26 @@ var app = express();
 
     // 修改用户状态：init状态==>通过，待定状态==>通过  (where name =? && status= ?)
     app.post('changeToPass',function(req,res){
-        
+        // 获取唯一值：电话号码
+        var phone_pass = res.body.phone;
+        var sql_changePass = "update dataOfYk SET markStatus = '通过' where phone = \' "+phone_pass + "\'";
+        connection.query(sql_changePass,function (err, result) {
+            if(err){
+                    console.log('[update ERROR] - ',err.message);
+                    return;
+            }
+            if(result === 0){
+                return;
+            }        
+            console.log('--------------------------select----------------------------');
+            console.log('update affectedRows',result);
+            var data = JSON.stringify(result);
+            console.log('-----------------------------------------------------------------\n\n');
+             
+        });
+
+
+
     })
     // 修改用户状态：init状态==>待定  (where name =? && status= ?)
 
