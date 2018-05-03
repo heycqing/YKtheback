@@ -16,13 +16,13 @@
     </el-table-column>
     <el-table-column prop="phone" label="电话" width="120">
     </el-table-column>
-    <el-table-column prop="date" label="日期" width="120">
+    <el-table-column prop="age" label="年龄" width="120">
     </el-table-column>
-    <el-table-column prop="BusinessCircle" label="商圈" width="120">
+    <el-table-column prop="buiness" label="商圈" width="120">
     </el-table-column>
-    <el-table-column prop="restaurant" label="餐厅" width="120">
+    <el-table-column prop="canTing" label="餐厅" width="120">
     </el-table-column>
-    <el-table-column prop="payStatus" label="付款状态" width="120">
+    <el-table-column prop="trade_status" label="付款状态" width="120">
     </el-table-column>
     <el-table-column prop="SignInStatus" label="签到状态" width="120">
     </el-table-column>
@@ -64,7 +64,8 @@ export default {
       //系统自动获取已经通过的数据
       getData: function(){
           var that = this;
-           this.$http.get("http://localhost:3333/PassData").then(function(response){
+          that.tableData_pass = '';
+           this.$http.get("http://localhost:3333/passData").then(function(response){
              console.log('postdata')
              console.log("result:"+response.data.data)
              

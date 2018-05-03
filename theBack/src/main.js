@@ -7,6 +7,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
+import jquery from 'jquery'
 // import VueAxios from 'vue-axios'
 
 
@@ -18,7 +19,9 @@ Vue.config.productionTip = false;
 // Vue.use(VueAxios);
 Vue.use(axios)
 Vue.use(ElementUI)
+Vue.use(jquery)
 Vue.prototype.$http= axios;
+Vue.prototype.$jq = jquery;
 
 
 

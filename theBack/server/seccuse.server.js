@@ -26,7 +26,7 @@ var app = express();
     });
 
     // app.post('/postData',function(req, res){
-       
+// function mysql_(){
     var connection = mysql.createConnection({     
         host     : '39.108.58.83',       
         user     : 'root',              
@@ -38,33 +38,38 @@ var app = express();
     connection.connect();
 
   
+    // setInterval(function(){
     //获取所有用户的信息
-    var sql_all = 'select * from dataOfYK';    
-    connection.query(sql_all,function (err, result) {
-        if(err){
-                console.log('[SELECT ERROR] - ',err.message);
+        
+        var sql_all = 'select * from dataOfYK';    
+        connection.query(sql_all,function (err, result) {
+            if(err){
+                    console.log('[SELECT ERROR] - ',err.message);
+                    return;
+            }
+            if(result === 0){
                 return;
-        }
-        if(result === 0){
-            return;
-        }        
-        console.log('--------------------------select----------------------------');
-        console.log('SELECT affectedRows',result);
-        var data = JSON.stringify(result);
-        console.log('-----------------------------------------------------------------\n\n');
-
-        // 把获的数据传到/postData页面上；
-        app.get('/postData', function(req, res) {
-            res.send(result);
-        });
+            }        
+            console.log('--------------------------select----------------------------');
+            console.log('SELECT affectedRows',result);
+            var data = JSON.stringify(result);
+            console.log('-----------------------------------------------------------------\n\n');
     
-         
-        fs.writeFile('YKdata.json',data, 'utf8', function(){
-            // 保存完成后的回调函数
-            console.log("保存完成");
+            // 把获的数据传到/postData页面上；
+            app.get('/postData', function(req, res) {
+                // res.send('');
+                res.send(result);
+            });
+        
+             
+            fs.writeFile('../static/YKdata.json',data, 'utf8', function(){
+                // 保存完成后的回调函数
+                console.log("保存完成");
+            });
+    
         });
-
-    });
+    // },5000)
+   
 
     // 获取已经通过的用户信息，where sccuess
     var sql_pass = "select * from dataOfYK where markStatus = \'通过\' ";
@@ -111,6 +116,8 @@ var app = express();
 
         // 把获的数据传到/postData页面上；
         app.get('/outData', function(req, res) {
+            
+            
             res.send(result);
         });
     
@@ -150,11 +157,24 @@ var app = express();
 
     });
 
+// }
+// var connection = mysql.createConnection({     
+//     host     : '39.108.58.83',       
+//     user     : 'root',              
+//     password : '1234',       
+//     port: '3306',                   
+//     database: 'YK', 
+// }); 
+
+// connection.connect();
+    
+
 
     // 修改用户状态：init状态==>通过，待定状态==>通过  (where name =? && status= ?)
     app.post('changeToPass',function(req,res){
         // 获取唯一值：电话号码
         var phone_pass = res.body.phone;
+        console.log('\n\n\n\n\n\n =====================================\n phone_pass:'+phone_pass+'\n=======================================\n\n\n\n\n')
         var sql_changePass = "update dataOfYk SET markStatus = '通过' where phone = \' "+phone_pass + "\'";
         connection.query(sql_changePass,function (err, result) {
             if(err){
@@ -164,7 +184,7 @@ var app = express();
             if(result === 0){
                 return;
             }        
-            console.log('--------------------------select----------------------------');
+            console.log('--------------------------ksksksk----------------------------');
             console.log('update affectedRows',result);
             var data = JSON.stringify(result);
             console.log('-----------------------------------------------------------------\n\n');
@@ -224,9 +244,14 @@ var app = express();
     
     
     connection.end();
+//  mysql_();
 
  
 // });
  
+    // =======================================定时启动===================================
+// setInterval(mysql_,5000);
+
+
 app.listen(3333);
 console.log('监听3333端口')

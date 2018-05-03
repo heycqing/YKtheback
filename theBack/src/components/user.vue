@@ -13,13 +13,13 @@
     </el-table-column>
     <el-table-column prop="phone" label="电话" width="120">
     </el-table-column>
-    <el-table-column prop="date" label="日期" width="120">
+    <el-table-column prop="age" label="年龄" width="120">
     </el-table-column>
-    <el-table-column prop="BusinessCircle" label="商圈" width="120">
+    <el-table-column prop="buiness" label="商圈" width="120">
     </el-table-column>
-    <el-table-column prop="restaurant" label="餐厅" width="120">
+    <el-table-column prop="canTing" label="餐厅" width="120">
     </el-table-column>
-    <el-table-column prop="payStatus" label="付款状态" width="120">
+    <el-table-column prop="trade_status" label="付款状态" width="120">
     </el-table-column>
     <el-table-column prop="SignInStatus" label="签到状态" width="120">
     </el-table-column>
@@ -27,12 +27,12 @@
       <template slot-scope="scope">
         <el-button
          type="success"
-          size="small" circle @click="successData()">
+          size="small" circle @click="successData(scope.$index)">
           通过
         </el-button>
         <el-button
           type="warning"
-          size="small" circle>
+          size="small" circle >
           待定
         </el-button>
         <el-button
@@ -81,6 +81,8 @@ export default {
       //系统自动获取数据
       getData: function(){
           var that = this;
+           that.tableData = '';
+          
            this.$http.get("http://localhost:3333/postData").then(function(response){
              console.log('postdata')
              console.log("result:"+response.data.data)
@@ -94,17 +96,42 @@ export default {
            })
       },
       //通过之后在当前用户加上成功状态,改变标记状态
-      successData(){
-         var that = this;
-         this.$http.get('').then(function(response){
-           
-         })
+      successData(a){
+        var that = this;
+        
+        console.log('phone:'+a)
+        var data_phone = that.tableData[a].phone;
+        console.log('tableData:'+that.tableData[a].phone)
+        that.json_ ={
+          phone:data_phone
+        }
+        var json_0 = JSON.stringify(that.json_);
+        this.$http({
+            method: "post",
+            url: "http://localhost:3333/changeToPass",
+            data:that.json_
+             }).then(response => {
+            console.log('response:'+response)})
+        
+        // this.$jq.ajax({
+        //             type: "post",
+        //             // contentType: "text/html",
+        //             url: 'http://localhost:5445/changeToPass',
+        //             // dataType:'text/html',
+        //             data:json_0,
+        //             success: function (result) {
+        //             console.log("操作成功");
+        //             },
+        //             error:function(response){
+        //             console.log("error");
+        //             }
+        //         });
       },
       // 待定之后在当前用户加上待定状态，改变标志状态
       daiDingData(){
-        $http({
+        this.$http({
             method: "post",
-            url: "",
+            url: "http://localhost:3333/changeToWaiting",
             // data:data
              }).then(response => {
             console.log('response:'+response)})
@@ -113,7 +140,7 @@ export default {
         OutData(){
            $http({
             method: "post",
-            url: "",
+            url: "http://localhost:3333/changeToOut",
             // data:data
              }).then(response => {
             console.log('response:'+response)})
@@ -125,7 +152,8 @@ export default {
     },
    data() {
       return{
-        tableData:''
+        tableData:'',
+        json_:''
       }
     }
 }
